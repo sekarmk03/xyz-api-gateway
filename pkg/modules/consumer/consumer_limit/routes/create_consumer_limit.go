@@ -3,6 +3,7 @@ package routes
 import (
 	"context"
 	"net/http"
+	"strconv"
 	"xyz-api-gateway/pkg/pb"
 	"xyz-api-gateway/pkg/utils"
 
@@ -11,7 +12,6 @@ import (
 )
 
 type CreateConsumerLimitRequestBody struct {
-	ConsumerId  uint64 `json:"consumer_id"`
 	Tenor       uint32 `json:"tenor"`
 	LimitAmount uint64 `json:"limit_amount"`
 }
@@ -19,6 +19,16 @@ type CreateConsumerLimitRequestBody struct {
 func CreateConsumerLimit(ctx *gin.Context, c pb.ConsumerLimitServiceClient) {
 	authorizationHeader := ctx.GetHeader("Authorization")
 	grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.Pairs("authorization", authorizationHeader))
+
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
+	if err != nil {
+		errResp := utils.NewErrorResponse(http.StatusBadRequest, "Bad Request", "Failed to convert id to int")
+		ctx.AbortWithStatusJSON(
+			http.StatusBadRequest,
+			errResp,
+		)
+		return
+	}
 
 	b := CreateConsumerLimitRequestBody{}
 	if err := ctx.BindJSON(&b); err != nil {
@@ -31,7 +41,7 @@ func CreateConsumerLimit(ctx *gin.Context, c pb.ConsumerLimitServiceClient) {
 	}
 
 	res, err := c.CreateConsumerLimit(grpcCtx, &pb.ConsumerLimit{
-		ConsumerId:  b.ConsumerId,
+		ConsumerId:  id,
 		Tenor:       b.Tenor,
 		LimitAmount: b.LimitAmount,
 	})

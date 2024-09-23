@@ -14,7 +14,7 @@ func RegisterRoutes(r *gin.Engine, c *config.Config) *ConsumerLimitServiceClient
 
 	routes := r.Group("/consumers")
 	routes.GET("/:id/limits", svc.GetConsumerLimitsByConsumerId)
-	routes.POST("/limit", svc.CreateConsumerLimit)
+	routes.POST("/:id/limits", svc.CreateConsumerLimit)
 
 	return svc
 }
