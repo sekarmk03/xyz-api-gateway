@@ -5,10 +5,10 @@ import (
 	"time"
 	"xyz-api-gateway/pkg/config"
 
+	"xyz-api-gateway/pkg/modules/auth/auth"
 	"xyz-api-gateway/pkg/modules/consumer/consumer"
 	"xyz-api-gateway/pkg/modules/consumer/consumer_limit"
 	"xyz-api-gateway/pkg/modules/transaction/transaction"
-	"xyz-api-gateway/pkg/modules/auth/auth"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
