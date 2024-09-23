@@ -3,6 +3,7 @@ package routes
 import (
 	"context"
 	"net/http"
+	"time"
 	"xyz-api-gateway/pkg/pb"
 	"xyz-api-gateway/pkg/utils"
 
@@ -78,8 +79,6 @@ func UpdateConsumer(ctx *gin.Context, c pb.ConsumerServiceClient) {
 		return
 	}
 
-	ktpFileName := "ktp_" + nik + "_" + ktpFile.Filename
-
 	selfiePhotoFile, err := ctx.FormFile("selfie_photo_file")
 	if err != nil {
 		errResp := utils.NewErrorResponse(http.StatusBadRequest, "Bad Request", "Selfie photo file is required")
@@ -94,7 +93,9 @@ func UpdateConsumer(ctx *gin.Context, c pb.ConsumerServiceClient) {
 		return
 	}
 
-	selfiePhotoFileName := "photo_" + nik + "_" + selfiePhotoFile.Filename
+	currentDate := time.Now().Format("20060102150405")
+	ktpFileName := "ktp_" + nik + "_" + currentDate + "_" + ktpFile.Filename
+	selfiePhotoFileName := "photo_" + nik + "_" + currentDate + "_" + selfiePhotoFile.Filename
 
 	res, err := c.UpdateConsumer(grpcCtx, &pb.ConsumerDataRequest{
 		Id:                  id,
