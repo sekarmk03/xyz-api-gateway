@@ -5,7 +5,7 @@ import (
 	"time"
 	"xyz-api-gateway/pkg/config"
 
-	// "xyz-api-gateway/pkg/modules/auth/auth"
+	"xyz-api-gateway/pkg/modules/consumer/consumer"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -29,7 +29,7 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	// auth.RegisterRoutes(r, &c)
+	consumer.RegisterRoutes(r, &c)
 
 	// r.Run(c.Port)
 
