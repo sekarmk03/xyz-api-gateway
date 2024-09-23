@@ -6,6 +6,7 @@ import (
 	"xyz-api-gateway/pkg/config"
 
 	"xyz-api-gateway/pkg/modules/consumer/consumer"
+	"xyz-api-gateway/pkg/modules/consumer/consumer_limit"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -32,6 +33,7 @@ func main() {
 	}))
 
 	consumer.RegisterRoutes(r, &c)
+	consumer_limit.RegisterRoutes(r, &c)
 
 	r.Run(c.Port)
 
