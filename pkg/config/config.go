@@ -3,11 +3,12 @@ package config
 import "github.com/spf13/viper"
 
 type Config struct {
-	Port           string `mapstructure:"PORT"`
-	ConsumerSvcUrl string `mapstructure:"CONSUMER_SVC_URL"`
-	FeOriginUrl    string `mapstructure:"FE_ORIGIN_URL"`
-	SSLCert        string `mapstructure:"SSL_CERT"`
-	SSLKey         string `mapstructure:"SSL_KEY"`
+	Port              string `mapstructure:"PORT"`
+	ConsumerSvcUrl    string `mapstructure:"CONSUMER_SVC_URL"`
+	TransactionSvcUrl string `mapstructure:"TRANSACTION_SVC_URL"`
+	FeOriginUrl       string `mapstructure:"FE_ORIGIN_URL"`
+	SSLCert           string `mapstructure:"SSL_CERT"`
+	SSLKey            string `mapstructure:"SSL_KEY"`
 }
 
 func LoadConfig() (c Config, err error) {
