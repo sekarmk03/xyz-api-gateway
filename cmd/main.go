@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 	"xyz-api-gateway/pkg/config"
+
 	// "xyz-api-gateway/pkg/modules/auth/auth"
 
 	"github.com/gin-contrib/cors"
@@ -28,7 +29,7 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	auth.RegisterRoutes(r, &c)
+	// auth.RegisterRoutes(r, &c)
 
 	// r.Run(c.Port)
 
