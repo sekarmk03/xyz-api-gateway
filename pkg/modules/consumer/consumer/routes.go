@@ -12,7 +12,7 @@ func RegisterRoutes(r *gin.Engine, c *config.Config) *ConsumerServiceClient {
 		Client: InitServiceClient(c),
 	}
 
-	routes := r.Group("/Consumers")
+	routes := r.Group("/consumers")
 	routes.GET("/", svc.GetAllConsumers)
 	routes.GET("/:id", svc.GetConsumerById)
 	routes.POST("/", svc.CreateConsumer)

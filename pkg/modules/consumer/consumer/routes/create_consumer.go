@@ -2,6 +2,7 @@ package routes
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 	"xyz-api-gateway/pkg/pb"
@@ -35,6 +36,8 @@ func CreateConsumer(ctx *gin.Context, c pb.ConsumerServiceClient) {
 		return
 	}
 
+	fmt.Printf("Received MultipartForm: %+v\n", ctx.Request.MultipartForm)
+
 	nik := ctx.PostForm("nik")
 	fullname := ctx.PostForm("fullname")
 	legalName := ctx.PostForm("legal_name")
@@ -67,23 +70,23 @@ func CreateConsumer(ctx *gin.Context, c pb.ConsumerServiceClient) {
 		return
 	}
 
-	ktpFileName := "ktp_" + nik + ktpFile.Filename
+	ktpFileName := "ktp_" + nik + "_" + ktpFile.Filename
 
-	selfieFile, err := ctx.FormFile("selfie_photo_file")
+	selfiePhotoFile, err := ctx.FormFile("selfie_photo_file")
 	if err != nil {
 		errResp := utils.NewErrorResponse(http.StatusBadRequest, "Bad Request", "Selfie photo file is required")
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, errResp)
 		return
 	}
 
-	selfieFileBytes, err := utils.FileToBytes(selfieFile)
+	selfieFileBytes, err := utils.FileToBytes(selfiePhotoFile)
 	if err != nil {
 		errResp := utils.NewErrorResponse(http.StatusInternalServerError, "Internal Server Error", "Failed to read selfie photo file")
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, errResp)
 		return
 	}
 
-	selfiePhotoFileName := "photo_" + nik + selfieFile.Filename
+	selfiePhotoFileName := "photo_" + nik + "_" + selfiePhotoFile.Filename
 
 	res, err := c.CreateConsumer(grpcCtx, &pb.ConsumerDataRequest{
 		Nik:                 nik,

@@ -20,8 +20,10 @@ func main() {
 
 	r := gin.Default()
 
+	r.RedirectTrailingSlash = false
+
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
+		AllowOrigins:     []string{c.FeOriginUrl},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
@@ -31,9 +33,9 @@ func main() {
 
 	consumer.RegisterRoutes(r, &c)
 
-	// r.Run(c.Port)
+	r.Run(c.Port)
 
-	if err := r.RunTLS(c.Port, c.SSLCert, c.SSLKey); err != nil {
-		log.Fatalln("ERROR: Could not start server:", err)
-	}
+	// if err := r.RunTLS(c.Port, c.SSLCert, c.SSLKey); err != nil {
+	// 	log.Fatalln("ERROR: Could not start server:", err)
+	// }
 }

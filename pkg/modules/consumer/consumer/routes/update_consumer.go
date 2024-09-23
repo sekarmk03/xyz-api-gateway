@@ -78,6 +78,8 @@ func UpdateConsumer(ctx *gin.Context, c pb.ConsumerServiceClient) {
 		return
 	}
 
+	ktpFileName := "ktp_" + nik + "_" + ktpFile.Filename
+
 	selfiePhotoFile, err := ctx.FormFile("selfie_photo_file")
 	if err != nil {
 		errResp := utils.NewErrorResponse(http.StatusBadRequest, "Bad Request", "Selfie photo file is required")
@@ -92,6 +94,8 @@ func UpdateConsumer(ctx *gin.Context, c pb.ConsumerServiceClient) {
 		return
 	}
 
+	selfiePhotoFileName := "photo_" + nik + "_" + selfiePhotoFile.Filename
+
 	res, err := c.UpdateConsumer(grpcCtx, &pb.ConsumerDataRequest{
 		Id:                  id,
 		Nik:                 nik,
@@ -101,9 +105,9 @@ func UpdateConsumer(ctx *gin.Context, c pb.ConsumerServiceClient) {
 		BirthDate:           birthDate,
 		Salary:              salaryInt,
 		KtpBuffer:           ktpFileBytes,
-		KtpFilename:         ktpFile.Filename,
+		KtpFilename:         ktpFileName,
 		SelfiePhotoBuffer:   selfiePhotoFileBytes,
-		SelfiePhotoFilename: selfiePhotoFile.Filename,
+		SelfiePhotoFilename: selfiePhotoFileName,
 	})
 
 	if err != nil {
